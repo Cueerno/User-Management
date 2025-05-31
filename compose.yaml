@@ -1,7 +1,7 @@
 ﻿services:
   postgres:
     image: postgres:16.8-alpine3.20
-    container_name: task4
+    container_name: task4-postgres
     environment:
       POSTGRES_USER: cuerno
       POSTGRES_PASSWORD: cuerno
@@ -11,6 +11,19 @@
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  app:
+    image: task4-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: task4-app
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=task4_db;Username=cuerno;Password=cuerno"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
 
 volumes:
   postgres_data:
