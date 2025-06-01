@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 namespace task_4.Models;
 
 public class LoginViewModel {
-    [Required(ErrorMessage = "Введите email")]
-    [EmailAddress(ErrorMessage = "Неверный формат email")]
+    [Required(ErrorMessage = "Enter email")]
+    [EmailAddress(ErrorMessage = "Invalid email format")]
     public string Email { get; set; }
 
-    [Required(ErrorMessage = "Введите пароль")]
+    [Required(ErrorMessage = "Enter password")]
     public string Password { get; set; }
 }
