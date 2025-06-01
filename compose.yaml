@@ -12,18 +12,19 @@
       - postgres_data:/var/lib/postgresql/data
 
   app:
-    image: task4-app
     build:
       context: .
       dockerfile: Dockerfile
+    image: task-4:latest
     container_name: task4-app
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Production"
-      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=task4_db;Username=cuerno;Password=cuerno"
+    restart: unless-stopped
     ports:
       - "8080:8080"
     depends_on:
       - postgres
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=task4_db;Username=cuerno;Password=cuerno"
 
 volumes:
   postgres_data:

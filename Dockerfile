@@ -1,23 +1,19 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
-WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
-
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
+﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["task-4.csproj", "./"]
-RUN dotnet restore "task-4.csproj"
+
 COPY . .
-WORKDIR "/src/"
-RUN dotnet build "./task-4.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./task-4.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet restore ./task-4.csproj
+RUN dotnet publish ./task-4.csproj -c Release -o /app/publish
 
-FROM base AS final
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
 WORKDIR /app
-COPY --from=publish /app/publish .
+
+COPY --from=build /app/publish ./
+
+ENV ASPNETCORE_URLS=http://+:8080
+
+EXPOSE 8080
+
 ENTRYPOINT ["dotnet", "task-4.dll"]
