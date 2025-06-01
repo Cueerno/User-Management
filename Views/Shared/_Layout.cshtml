@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - task_4</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/layout.css" />
     <link rel="stylesheet" href="~/task_4.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
@@ -31,6 +32,14 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="http://localhost:8080/Account/Login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <form asp-controller="Account" asp-action="Logout" method="post">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="nav-link text-dark border-0 bg-transparent">
+                                    Logout
+                                </button>
+                            </form>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="http://localhost:8080/User/All">Users</a>
